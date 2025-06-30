@@ -1,25 +1,31 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.exc import OperationalError
 from config import Config
+import os
 
-# Базовый класс для моделей
-Base = declarative_base()
+# Импортируем Base ИЗ МОДЕЛЕЙ (а не создаем здесь)
+from bot.models import Base
 
+# Инициализация конфига
+config = Config()
+
+# Создаем движок
+engine = create_engine(
+    config.DATABASE_URL,
+    echo=config.DEBUG,
+    connect_args={"check_same_thread": False} if "sqlite" in config.DATABASE_URL else {}
+)
+
+# Фабрика сессий
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 def init_db():
-    """Инициализация подключения к БД"""
-    engine = create_engine(
-        Config.DATABASE_URL,
-        echo=Config.DEBUG,
-        connect_args={"check_same_thread": False}  # Для SQLite
-    )
-
-    # Создаем таблицы
-    Base.metadata.create_all(bind=engine)
-
-    return engine
-
-
-def create_session_factory(engine):
-    """Создаем фабрику сессий"""
-    return sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    """Создает все таблицы в базе данных"""
+    try:
+        print("Creating tables...")
+        Base.metadata.create_all(bind=engine)
+        print(f"Tables created: {list(Base.metadata.tables.keys())}")
+    except OperationalError as e:
+        print(f"Database error: {e}")
+        raise
