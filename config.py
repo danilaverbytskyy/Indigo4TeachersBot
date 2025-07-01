@@ -12,7 +12,7 @@ class Config:
 
     # Путь к базе данных
     BASE_DIR = Path(__file__).resolve().parent.parent
-    DATABASE_URL = f"sqlite:///data/database.db"
+    DATABASE_URL = os.getenv("DATABASE_URL")
 
     # Настройки Alembic
     ALEMBIC_CONFIG = os.path.join(BASE_DIR, "migrations", "alembic.ini")
