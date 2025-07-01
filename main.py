@@ -16,10 +16,10 @@ def main():
     register_common_handlers(bot, config)
     # ... другие обработчики
 
+    print('Bot is successfuly running ✅')
     # Запуск бота
     bot.infinity_polling()
 
 
 if __name__ == "__main__":
     main()
-    print('Bot is successfuly running ✅')
