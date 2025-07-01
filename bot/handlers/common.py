@@ -20,7 +20,7 @@ def register_common_handlers(bot: TeleBot, config):
         bot.send_message(
             message.chat.id,
             f"Hi {message.from_user.first_name}! What are you searching for?🔠",
-            reply_markup=main_menu()  # Теперь возвращает inline-клавиатуру
+            reply_markup=main_menu()
         )
 
     @bot.callback_query_handler(func=lambda call: call.data == BUTTON_USEFUL_LINKS)

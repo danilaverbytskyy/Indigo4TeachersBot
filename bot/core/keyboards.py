@@ -13,7 +13,7 @@ BUTTON_THEMATIC_LESSONS = "Тематические уроки"
 def main_menu():
     markup = InlineKeyboardMarkup(row_width=1)
     markup.add(
-        InlineKeyboardButton(BUTTON_READY_LESSONS, callback_data=BUTTON_READY_LESSONS),
+        InlineKeyboardButton(BUTTON_READY_LESSONS,  callback_data=BUTTON_READY_LESSONS),
         InlineKeyboardButton(BUTTON_ADDITIONAL_MATERIALS, callback_data=BUTTON_ADDITIONAL_MATERIALS),
         InlineKeyboardButton(BUTTON_WARM_UPS, callback_data=BUTTON_WARM_UPS),
         InlineKeyboardButton(BUTTON_USEFUL_LINKS, callback_data=BUTTON_USEFUL_LINKS)
@@ -28,7 +28,7 @@ def useful_links_keyboard():
 def lesson_choices():
     markup = InlineKeyboardMarkup(row_width=1)
     markup.add(
-        InlineKeyboardButton(BUTTON_A1_A2, callback_data=BUTTON_A1_A2),
+        InlineKeyboardButton(BUTTON_A1_A2, url='google.com', callback_data=BUTTON_A1_A2),
         InlineKeyboardButton(BUTTON_B1_B2, callback_data=BUTTON_B1_B2),
         InlineKeyboardButton(BUTTON_KIDS, callback_data=BUTTON_KIDS),
         InlineKeyboardButton(BUTTON_THEMATIC_LESSONS, callback_data=BUTTON_THEMATIC_LESSONS),
