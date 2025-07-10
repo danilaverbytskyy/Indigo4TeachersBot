@@ -1,5 +1,3 @@
-#!/home/danilamolotov/.virtualenvs/myvirtualenv/bin/python
-
 import telebot
 from config import Config
 from bot.core.database import init_db
