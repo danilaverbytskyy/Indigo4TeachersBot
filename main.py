@@ -1,4 +1,4 @@
-#!/home/danilamolotov/.virtualenvs/myvirtualenv/bin/python3.12
+#!/home/danilamolotov/.virtualenvs/myvirtualenv/bin/python
 
 import telebot
 from config import Config
