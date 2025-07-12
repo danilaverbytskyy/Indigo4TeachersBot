@@ -11,6 +11,7 @@ class UserRepository:
         with get_db_session() as session:
             yield session
 
+
     @classmethod
     def get_or_create_user(cls, user_id: int, username: str, full_name: str):
         with cls.get_db() as session:
