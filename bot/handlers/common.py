@@ -4,7 +4,7 @@ from telebot import TeleBot
 from bot.core.database import engine
 from bot.core.keyboards import useful_links_keyboard, BUTTON_READY_LESSONS, BUTTON_USEFUL_LINKS, main_menu, BUTTON_BACK, \
     lesson_choices
-from bot.handlers.user_state_handler import set_user_state, get_user_state
+from bot.repositories.user_repo import UserRepository
 from bot.models.bot_user import BotUser
 from sqlalchemy.orm import Session
 
@@ -14,6 +14,7 @@ STATE_MAIN_MENU = "main_menu"
 STATE_USEFUL_LINKS = "useful_links"
 STATE_READY_LESSONS = "ready_lessons"
 STATE_ADDITIONAL_MATERIALS = "additional_materials"
+user_repo = UserRepository()
 
 def register_common_handlers(bot: TeleBot, config):
     @bot.message_handler(commands=['start'])
@@ -39,7 +40,7 @@ def register_common_handlers(bot: TeleBot, config):
 
             db.commit()
 
-        set_user_state(user_id, STATE_MAIN_MENU)
+        user_repo.set_user_state(user_id, STATE_MAIN_MENU)
 
         bot.send_message(
             message.chat.id,
@@ -50,7 +51,7 @@ def register_common_handlers(bot: TeleBot, config):
     @bot.callback_query_handler(func=lambda call: call.data == BUTTON_USEFUL_LINKS)
     def handle_useful_links(call):
         user_id = call.from_user.id
-        set_user_state(user_id, STATE_USEFUL_LINKS)
+        user_repo.set_user_state(user_id, STATE_USEFUL_LINKS)
 
         links_text = "🔗 Полезные ссылки:\n\n"
 
@@ -71,7 +72,7 @@ def register_common_handlers(bot: TeleBot, config):
     @bot.callback_query_handler(func=lambda call: call.data == BUTTON_READY_LESSONS)
     def handle_ready_lessons(call):
         user_id = call.from_user.id
-        set_user_state(user_id, STATE_READY_LESSONS)
+        user_repo.set_user_state(user_id, STATE_READY_LESSONS)
 
         bot.edit_message_text(
             chat_id=call.message.chat.id,
@@ -83,10 +84,10 @@ def register_common_handlers(bot: TeleBot, config):
     @bot.callback_query_handler(func=lambda call: call.data == BUTTON_BACK)
     def handle_back(call):
         user_id = call.from_user.id
-        previous_state = get_user_state(user_id)
+        previous_state = user_repo.get_user_state(user_id)
 
         if previous_state in [STATE_USEFUL_LINKS, STATE_READY_LESSONS, STATE_ADDITIONAL_MATERIALS]:
-            set_user_state(user_id, STATE_MAIN_MENU)
+            user_repo.set_user_state(user_id, STATE_MAIN_MENU)
             bot.edit_message_text(
                 chat_id=call.message.chat.id,
                 message_id=call.message.message_id,
