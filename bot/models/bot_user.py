@@ -10,7 +10,7 @@ class BotUser(Base):
     __tablename__ = "BotUsers"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, unique=True)
+    user_id = Column(Integer, unique=True, index=True)
     firstname = Column(String(50))
     lastname = Column(String(50))
     username = Column(String(50))

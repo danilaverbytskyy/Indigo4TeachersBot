@@ -1,13 +1,9 @@
 import os
 
 from telebot import TeleBot
-from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton  # Добавлено
-
 from bot.core.database import engine
 from bot.core.keyboards import useful_links_keyboard, BUTTON_READY_LESSONS, BUTTON_USEFUL_LINKS, main_menu, BUTTON_BACK, \
     lesson_choices
-from sqlalchemy import create_engine
-
 from bot.handlers.user_handler import set_user_state, get_user_state
 from bot.models.bot_user import BotUser
 from sqlalchemy.orm import Session
